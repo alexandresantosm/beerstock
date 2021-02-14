@@ -19,18 +19,15 @@ public class BeerService {
     private final BeerMapper beerMapper = BeerMapper.INSTANCE;
 
     public BeerDTO createBeer(BeerDTO beerDTO) {
-        Beer beer = new Beer();
-        beer.setId(1L);
-        beer.setName("Brahma");
-        beer.setBrand("Ambev");
-        beer.setMax(50);
-        beer.setQuantity(10);
-        beer.setType(BeerType.LAGER);
+        verifyIfIsAlreadyRegistered(beerDTO.getName());
 
-        Optional<Beer> beerEmpty = beerRepository.findByName(beer.getName());
-
+        Beer beer = beerMapper.toModel(beerDTO);
         Beer savedBeer = beerRepository.save(beer);
 
         return beerMapper.toDTO(savedBeer);
+    }
+
+    private void verifyIfIsAlreadyRegistered(String name) {
+        Optional<Beer> optSavedBeer = beerRepository.findByName(name);
     }
 }
