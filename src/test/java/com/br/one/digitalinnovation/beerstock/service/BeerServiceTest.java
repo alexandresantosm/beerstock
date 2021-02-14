@@ -36,6 +36,7 @@ public class BeerServiceTest {
     void whenBeerInformedThenItShouldBeCreated() {
         // given
         BeerDTO expectedBeerDTO = BeerDTOBuilder.builder().build().toBeerDTO();
+        System.out.println(expectedBeerDTO.getId());
         Beer expectedSaveBeer = beerMapper.toModel(expectedBeerDTO);
 
         // when
