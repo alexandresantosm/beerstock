@@ -3,17 +3,13 @@ package com.br.one.digitalinnovation.beerstock.service;
 import com.br.one.digitalinnovation.beerstock.builder.BeerDTOBuilder;
 import com.br.one.digitalinnovation.beerstock.dto.BeerDTO;
 import com.br.one.digitalinnovation.beerstock.entity.Beer;
+import com.br.one.digitalinnovation.beerstock.exception.BeerAlreadyRegisteredException;
 import com.br.one.digitalinnovation.beerstock.mapper.BeerMapper;
 import com.br.one.digitalinnovation.beerstock.repository.BeerRepository;
-import org.hamcrest.Matcher;
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
@@ -35,7 +31,7 @@ public class BeerServiceTest {
     private BeerService beerService;
 
     @Test
-    void whenBeerInformedThenItShouldBeCreated() {
+    void whenBeerInformedThenItShouldBeCreated() throws BeerAlreadyRegisteredException {
         // given
         BeerDTO expectedBeerDTO = BeerDTOBuilder.builder().build().toBeerDTO();
         System.out.println(expectedBeerDTO.getId());
