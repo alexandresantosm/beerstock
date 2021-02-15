@@ -5,8 +5,10 @@ import com.br.one.digitalinnovation.beerstock.exception.BeerAlreadyRegisteredExc
 import com.br.one.digitalinnovation.beerstock.service.BeerService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/api/v1/beers")
@@ -15,8 +17,9 @@ public class BeerController implements BeerControllerDocs {
 
     private final BeerService beerService;
 
-    @Override
-    public BeerDTO createBeer(BeerDTO beerDTO) throws BeerAlreadyRegisteredException {
-        return null;
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public BeerDTO createBeer(@RequestBody @Valid BeerDTO beerDTO) throws BeerAlreadyRegisteredException {
+        return beerService.createBeer(beerDTO);
     }
 }
