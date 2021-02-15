@@ -34,4 +34,10 @@ public class BeerService {
             throw new BeerAlreadyRegisteredException(name);
         }
     }
+
+    public BeerDTO findByName(String name) {
+        Beer foundBeer = beerRepository.findByName(name).get();
+
+        return beerMapper.toDTO(foundBeer);
+    }
 }
