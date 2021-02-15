@@ -76,4 +76,16 @@ public class BeerServiceTest {
 
         assertThat(foundBeerDTO, is(equalTo(expectedFoundBeerDTO)));
     }
+
+    @Test
+    void whenNotRegisteredBeerNameIsGivenThenThrowAnException() {
+        // given
+        BeerDTO expectedNotFoundBeerDTO = BeerDTOBuilder.builder().build().toBeerDTO();
+
+        // when
+        when(beerRepository.findByName(expectedNotFoundBeerDTO.getName())).thenReturn(Optional.empty());
+
+        // then
+        assertThrows(BeerNotFoundException.class, () -> beerService.findByName(expectedNotFoundBeerDTO.getName()));
+    }
 }
