@@ -3,6 +3,7 @@ package com.br.one.digitalinnovation.beerstock.service;
 import com.br.one.digitalinnovation.beerstock.dto.BeerDTO;
 import com.br.one.digitalinnovation.beerstock.entity.Beer;
 import com.br.one.digitalinnovation.beerstock.exception.BeerAlreadyRegisteredException;
+import com.br.one.digitalinnovation.beerstock.exception.BeerNotFoundException;
 import com.br.one.digitalinnovation.beerstock.mapper.BeerMapper;
 import com.br.one.digitalinnovation.beerstock.repository.BeerRepository;
 import lombok.AllArgsConstructor;
@@ -35,8 +36,9 @@ public class BeerService {
         }
     }
 
-    public BeerDTO findByName(String name) {
-        Beer foundBeer = beerRepository.findByName(name).get();
+    public BeerDTO findByName(String name) throws BeerNotFoundException {
+        Beer foundBeer = beerRepository.findByName(name)
+                .orElseThrow(() -> new BeerNotFoundException(name));
 
         return beerMapper.toDTO(foundBeer);
     }

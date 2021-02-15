@@ -4,6 +4,7 @@ import com.br.one.digitalinnovation.beerstock.builder.BeerDTOBuilder;
 import com.br.one.digitalinnovation.beerstock.dto.BeerDTO;
 import com.br.one.digitalinnovation.beerstock.entity.Beer;
 import com.br.one.digitalinnovation.beerstock.exception.BeerAlreadyRegisteredException;
+import com.br.one.digitalinnovation.beerstock.exception.BeerNotFoundException;
 import com.br.one.digitalinnovation.beerstock.mapper.BeerMapper;
 import com.br.one.digitalinnovation.beerstock.repository.BeerRepository;
 import org.junit.jupiter.api.Test;
@@ -63,7 +64,7 @@ public class BeerServiceTest {
     }
 
     @Test
-    void whenValidBeerNameIsGivenThenReturnABeer() {
+    void whenValidBeerNameIsGivenThenReturnABeer() throws BeerNotFoundException {
         // given
         BeerDTO expectedFoundBeerDTO = BeerDTOBuilder.builder().build().toBeerDTO();
         Beer expectedFoundBeer = beerMapper.toModel(expectedFoundBeerDTO);
