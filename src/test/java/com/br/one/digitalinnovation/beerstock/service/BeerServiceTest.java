@@ -135,4 +135,14 @@ public class BeerServiceTest {
         verify(beerRepository, times(1)).findById(expectedDeletedBeerDTO.getId());
         verify(beerRepository, times(1)).deleteById(expectedDeletedBeerDTO.getId());
     }
+
+    @Test
+    void whenExclusionIsCalledWithInvalidIdThenThrowAnException() {
+        // given
+        BeerDTO expectedDeletedBeerDTO = BeerDTOBuilder.builder().build().toBeerDTO();
+        expectedDeletedBeerDTO.setId(null);
+
+        // then
+        assertThrows(BeerNotFoundException.class, () -> beerService.deleteById(expectedDeletedBeerDTO.getId()));
+    }
 }
