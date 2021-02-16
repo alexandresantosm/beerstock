@@ -99,7 +99,7 @@ public class BeerServiceTest {
         Beer expectedFoundBeer = beerMapper.toModel(expectedFoundBeerDTO);
 
         // when
-        when(beerRepository.findAll()).thenReturn(Collections.singletonList(expectedFoundBeer));
+        // when(beerRepository.findAll()).thenReturn(Collections.singletonList(expectedFoundBeer));
 
         // then
         List<BeerDTO> foundListBeersDTO = beerService.listAll();

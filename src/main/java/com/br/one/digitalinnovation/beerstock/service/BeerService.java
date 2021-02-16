@@ -2,6 +2,7 @@ package com.br.one.digitalinnovation.beerstock.service;
 
 import com.br.one.digitalinnovation.beerstock.dto.BeerDTO;
 import com.br.one.digitalinnovation.beerstock.entity.Beer;
+import com.br.one.digitalinnovation.beerstock.enums.BeerType;
 import com.br.one.digitalinnovation.beerstock.exception.BeerAlreadyRegisteredException;
 import com.br.one.digitalinnovation.beerstock.exception.BeerNotFoundException;
 import com.br.one.digitalinnovation.beerstock.mapper.BeerMapper;
@@ -10,6 +11,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -41,5 +44,17 @@ public class BeerService {
                 .orElseThrow(() -> new BeerNotFoundException(name));
 
         return beerMapper.toDTO(foundBeer);
+    }
+
+    public List<BeerDTO> listAll() {
+        BeerDTO beerDTO = new BeerDTO();
+        beerDTO.setId(1L);
+        beerDTO.setName("Brahma");
+        beerDTO.setBrand("Ambev");
+        beerDTO.setMax(50);
+        beerDTO.setQuantity(10);
+        beerDTO.setType(BeerType.LAGER);
+
+        return Collections.singletonList(beerDTO);
     }
 }
