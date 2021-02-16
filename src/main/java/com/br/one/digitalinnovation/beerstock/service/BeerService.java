@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor(onConstructor = @__(@Autowired))
@@ -47,14 +48,9 @@ public class BeerService {
     }
 
     public List<BeerDTO> listAll() {
-        BeerDTO beerDTO = new BeerDTO();
-        beerDTO.setId(1L);
-        beerDTO.setName("Brahma");
-        beerDTO.setBrand("Ambev");
-        beerDTO.setMax(50);
-        beerDTO.setQuantity(10);
-        beerDTO.setType(BeerType.LAGER);
-
-        return Collections.singletonList(beerDTO);
+        return beerRepository.findAll()
+                .stream()
+                .map(beerMapper::toDTO)
+                .collect(Collectors.toList());
     }
 }
