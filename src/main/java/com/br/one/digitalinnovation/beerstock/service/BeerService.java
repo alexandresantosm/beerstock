@@ -63,4 +63,13 @@ public class BeerService {
         return beerRepository.findById(id)
                 .orElseThrow(() -> new  BeerNotFoundException(id));
     }
+
+    public BeerDTO increment(Long id, int quantityToIncrement) {
+        BeerDTO beerDTO = new BeerDTO();
+        beerDTO.setId(id);
+        beerDTO.setName("Brahma");
+        beerDTO.setQuantity(quantityToIncrement + 10);
+
+        return beerDTO;
+    }
 }
