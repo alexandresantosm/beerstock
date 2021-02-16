@@ -122,4 +122,18 @@ public class BeerControllerTest {
                 .andExpect(jsonPath("$[0].type", is(beerDTO.getType().toString())))
         ;
     }
+
+    @Test
+    void whenGETListWithBeersIsCalledThenAnEmptyListBeersIsReturned() throws Exception {
+
+        // when
+        when(beerService.listAll()).thenReturn(Collections.EMPTY_LIST);
+
+        // then
+        mockMvc.perform(get(BEER_API_URL_PATH)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", is(empty())))
+        ;
+    }
 }

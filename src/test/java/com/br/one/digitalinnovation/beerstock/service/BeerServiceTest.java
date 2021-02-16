@@ -118,4 +118,6 @@ public class BeerServiceTest {
 
         assertThat(foundListBeersDTO, is(empty()));
     }
+
+
 }
