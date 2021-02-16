@@ -25,7 +25,7 @@ import java.util.Collections;
 
 import static com.br.one.digitalinnovation.beerstock.utils.JsonConvertionUtils.*;
 import static org.hamcrest.Matchers.*;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -135,5 +135,19 @@ public class BeerControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", is(empty())))
         ;
+    }
+
+    @Test
+    void whenDELETEIsCalledWithValidIdThenAnBeerIsDeleted() throws Exception {
+        // when
+        doNothing().when(beerService).deleteById(VALID_BEER_ID);
+
+        // then
+        mockMvc.perform(delete(BEER_API_URL_PATH + "/" + VALID_BEER_ID)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNoContent())
+        ;
+
+        verify(beerService, times(1)).deleteById(VALID_BEER_ID);
     }
 }
