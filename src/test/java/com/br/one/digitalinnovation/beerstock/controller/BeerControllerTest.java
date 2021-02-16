@@ -3,6 +3,7 @@ package com.br.one.digitalinnovation.beerstock.controller;
 import com.br.one.digitalinnovation.beerstock.builder.BeerDTOBuilder;
 import com.br.one.digitalinnovation.beerstock.dto.BeerDTO;
 import com.br.one.digitalinnovation.beerstock.exception.BeerAlreadyRegisteredException;
+import com.br.one.digitalinnovation.beerstock.exception.BeerNotFoundException;
 import com.br.one.digitalinnovation.beerstock.service.BeerService;
 import com.br.one.digitalinnovation.beerstock.utils.JsonConvertionUtils;
 import org.hamcrest.Matchers;
@@ -149,5 +150,17 @@ public class BeerControllerTest {
         ;
 
         verify(beerService, times(1)).deleteById(VALID_BEER_ID);
+    }
+
+    @Test
+    void whenDELETEIsCalledWithInvalidIdThenAnErrorIsReturned() throws Exception {
+        // when
+        doThrow(BeerNotFoundException.class).when(beerService).deleteById(INVALID_BEER_ID);
+
+        // then
+        mockMvc.perform(delete(BEER_API_URL_PATH + "/" + INVALID_BEER_ID)
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound())
+        ;
     }
 }
