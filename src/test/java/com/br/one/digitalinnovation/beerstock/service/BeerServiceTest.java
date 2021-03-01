@@ -26,6 +26,8 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 public class BeerServiceTest {
 
+    private static final long INVALID_BEER_ID = 2l;
+
     @Mock
     private BeerRepository beerRepository;
 
@@ -193,5 +195,16 @@ public class BeerServiceTest {
         int quantityToIncrement = 45;
 
         assertThrows(BeerStockExceededException.class, () -> beerService.increment(expectedBeerDTO.getId(), quantityToIncrement));
+    }
+
+    @Test
+    void whenIncrementIsCalledWithInvalidThenThrowException() {
+
+        // when
+        when(beerRepository.findById(INVALID_BEER_ID)).thenReturn(Optional.empty());
+
+        int quantityToIncrement = 10;
+
+        assertThrows(BeerNotFoundException.class, () -> beerService.increment(INVALID_BEER_ID, quantityToIncrement));
     }
 }
