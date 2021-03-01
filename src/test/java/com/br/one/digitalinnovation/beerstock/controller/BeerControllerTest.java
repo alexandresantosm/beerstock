@@ -2,6 +2,7 @@ package com.br.one.digitalinnovation.beerstock.controller;
 
 import com.br.one.digitalinnovation.beerstock.builder.BeerDTOBuilder;
 import com.br.one.digitalinnovation.beerstock.dto.BeerDTO;
+import com.br.one.digitalinnovation.beerstock.dto.QuantityDTO;
 import com.br.one.digitalinnovation.beerstock.exception.BeerAlreadyRegisteredException;
 import com.br.one.digitalinnovation.beerstock.exception.BeerNotFoundException;
 import com.br.one.digitalinnovation.beerstock.service.BeerService;
@@ -162,5 +163,30 @@ public class BeerControllerTest {
                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound())
         ;
+    }
+
+    @Test
+    void whenPATHIsCalledToIncrementThenOkStatusIsReturned() throws Exception {
+        // given
+
+        QuantityDTO quantityDTO = QuantityDTO.builder()
+                .quantity(10)
+                .build();
+
+        BeerDTO beerDTO = BeerDTOBuilder.builder().build().toBeerDTO();
+        beerDTO.setQuantity(beerDTO.getQuantity() + quantityDTO.getQuantity());
+
+        // when
+        when(beerService.increment(VALID_BEER_ID, quantityDTO.getQuantity())).thenReturn(beerDTO);
+
+        // then
+        mockMvc.perform(patch(BEER_API_URL_PATH + "/" + VALID_BEER_ID + BEER_API_SUBPATH_INCREMENT_URL)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(asJsonString(quantityDTO)))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.name", is(beerDTO.getName())))
+                .andExpect(jsonPath("$.brand", is(beerDTO.getBrand())))
+                .andExpect(jsonPath("$.type", is(beerDTO.getType().toString())))
+                .andExpect(jsonPath("$.quantity", is(beerDTO.getQuantity())));
     }
 }

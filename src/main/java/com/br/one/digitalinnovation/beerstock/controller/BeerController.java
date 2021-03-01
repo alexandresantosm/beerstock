@@ -40,4 +40,6 @@ public class BeerController implements BeerControllerDocs {
     public void deleteById(@PathVariable Long id) throws BeerNotFoundException {
         beerService.deleteById(id);
     }
+
+
 }
