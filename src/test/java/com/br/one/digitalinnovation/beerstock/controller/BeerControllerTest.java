@@ -210,4 +210,22 @@ public class BeerControllerTest {
                 .andExpect(status()
                         .isBadRequest());
     }
+
+    @Test
+    void whenPATHIsCalledWithInvalidIdToIncrementThenNotFoundStatusIsReturned() throws Exception {
+        // given
+        QuantityDTO quantityDTO = QuantityDTO.builder()
+                .quantity(30)
+                .build();
+
+        // when
+        when(beerService.increment(INVALID_BEER_ID, quantityDTO.getQuantity())).thenThrow(BeerNotFoundException.class);
+
+        // then
+        mockMvc.perform(patch(BEER_API_URL_PATH + "/" + INVALID_BEER_ID + BEER_API_SUBPATH_INCREMENT_URL)
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(quantityDTO)))
+                .andExpect(status()
+                        .isNotFound());
+    }
 }
