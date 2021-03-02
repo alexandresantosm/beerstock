@@ -259,4 +259,14 @@ public class BeerServiceTest {
         int quantityToDecrement = 80;
         assertThrows(BeerStockExceededException.class, () -> beerService.decrement(expectedBeer.getId(), quantityToDecrement));
     }
+
+    @Test
+    void whenDecrementIsCalledWithInvalidIdThenThrowException() {
+        // when
+        when(beerRepository.findById(INVALID_BEER_ID)).thenReturn(Optional.empty());
+
+        // then
+        int quantityToDecrement = 10;
+        assertThrows(BeerNotFoundException.class, () -> beerService.decrement(INVALID_BEER_ID, quantityToDecrement));
+    }
 }
