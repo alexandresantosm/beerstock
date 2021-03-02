@@ -209,7 +209,7 @@ public class BeerServiceTest {
     }
 
     @Test
-    void whenDecrementIsCalledThenDecrementBeerStock() {
+    void whenDecrementIsCalledThenDecrementBeerStock() throws BeerStockExceededException, BeerNotFoundException {
         // given
         BeerDTO expectedBeerDTO = BeerDTOBuilder.builder().build().toBeerDTO();
         Beer expectedBeer = beerMapper.toModel(expectedBeerDTO);
