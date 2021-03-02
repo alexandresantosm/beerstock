@@ -91,13 +91,13 @@ public class BeerService {
             Beer beerToDecrementStock = optBeer.get();
             beerToDecrementStock.setQuantity(beerToDecrementStock.getQuantity() - quantityToDecrement);
 
-            if (beerToDecrementStock.getMax() < beerToDecrementStock.getQuantity()) {
+            if (beerToDecrementStock.getQuantity() < 0) {
                 throw new BeerStockExceededException(id, quantityToDecrement);
             }
 
-            Beer incrementedBeerStock = beerRepository.save(beerToDecrementStock);
+            Beer decrementedBeerStock = beerRepository.save(beerToDecrementStock);
 
-            return beerMapper.toDTO(incrementedBeerStock);
+            return beerMapper.toDTO(decrementedBeerStock);
         }
 
         throw  new BeerNotFoundException(id);

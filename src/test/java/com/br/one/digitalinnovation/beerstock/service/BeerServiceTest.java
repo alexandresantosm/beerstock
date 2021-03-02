@@ -245,4 +245,18 @@ public class BeerServiceTest {
         assertThat(expectedQuantityAfterDecrement, equalTo(decrementedBeerDTO.getQuantity()));
         assertThat(expectedQuantityAfterDecrement, equalTo(0));
     }
+
+    @Test
+    void whenDecrementIsLowerThanZeroThenThrowException() {
+        // given
+        BeerDTO expectedBeerDTO = BeerDTOBuilder.builder().build().toBeerDTO();
+        Beer expectedBeer = beerMapper.toModel(expectedBeerDTO);
+
+        // when
+        when(beerRepository.findById(expectedBeerDTO.getId())).thenReturn(Optional.of(expectedBeer));
+
+        // then
+        int quantityToDecrement = 80;
+        assertThrows(BeerStockExceededException.class, () -> beerService.decrement(expectedBeer.getId(), quantityToDecrement));
+    }
 }
